@@ -90,7 +90,8 @@ main.Micropage {
   }
   .Micropage--container {
     max-width: 480px;
-    margin: 0 30px;
+    margin: 0 5px;
+    padding: 50px 20px;
   }
   .Micropage--Ground {
     background-image: url('{{ ufoPath }}/ground_ufo_375.svg');
@@ -102,6 +103,18 @@ main.Micropage {
     display: none;
   }
 
+}
+
+@media (max-width: 350px) {
+
+  main.Micropage {
+    height: calc(100vh - 137px);
+  }
+  .Micropage--container {
+    max-width: 480px;
+    margin: 0;
+    padding: 50px 0;
+  }
 }
 
 .stripe--container {
