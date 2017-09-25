@@ -1,8 +1,8 @@
-title: Koding On-Prem Payment Processing
+title: Koding Custom Billing
 email: support@koding.com
 repository: koding/on-prem-payment
 description: >
-  Online payments for license fees.
+  Online payments for custom or on-prem billing.
 url: "https://cc.koding.com"
 # url: "dev.koding.com:4000"
 timezone: America/Los_Angeles
