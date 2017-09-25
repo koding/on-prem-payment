@@ -3,7 +3,7 @@ email: support@koding.com
 repository: koding/on-prem-payment
 description: >
   Online payments for license fees.
-url: "cc.koding.com"
+url: "http://cc.koding.com"
 # url: "dev.koding.com:4000"
 timezone: America/Los_Angeles
 exclude:
