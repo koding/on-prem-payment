@@ -1,41 +1,46 @@
 <script src="https://js.stripe.com/v3/"></script>
 <script>
 {% if jekyll.environment == 'production' %}
-  var publicKey = 'pk_live_8yL4ZpvdJphKyOQOEJyCWCVC'
+  var stripeKey = 'pk_live_8yL4ZpvdJphKyOQOEJyCWCVC'
+  var recaptchaKey = '6LfNuioUAAAAAPBaPtNyY21wcmzXMB69coRaCVkp'
 {% else %}
-  var publicKey = 'pk_test_eErjuF9dOkQOyqG1bpzjdqui'
+  var stripeKey = 'pk_test_eErjuF9dOkQOyqG1bpzjdqui'
+  var recaptchaKey = '6LdmvioUAAAAAEMZAFbTN-C8Eg_fQrObHeG6XXUw'
 {% endif %}
-  var stripe = Stripe(publicKey);
-  var elements = stripe.elements();
-  var card = elements.create('card', {
-    style: {
-      base: {
-        iconColor: '#666EE8',
-        color: '#31325F',
-        lineHeight: '40px',
-        fontWeight: 300,
-        // fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-        // fontSize: '15px',
+  function onRecaptchaLoaded() {
+    grecaptcha.render('payment-submit-button', {
+      sitekey: recaptchaKey,
+      callback: onSubmit
+    })
+  }
 
-        '::placeholder': {
-          color: '#CFD7E0',
-        },
+  var stripe = Stripe(stripeKey);
+  var elements = stripe.elements();
+
+  var style = {
+    base: {
+      iconColor: '#666EE8',
+      color: '#31325F',
+      lineHeight: '40px',
+      fontWeight: 300,
+      '::placeholder': {
+        color: '#CFD7E0',
       },
-    }
+    },
+  }
+
+  // we don't collect postal code anywhere else.
+  var card = elements.create('card', {
+    style: style,
+    hidePostalCode: true
   });
   card.mount('#card-element');
 
   function setOutcome(result) {
-    var successElement = document.querySelector('.success');
     var errorElement = document.querySelector('.error');
-    successElement.classList.remove('visible');
     errorElement.classList.remove('visible');
 
     if (result.token) {
-      // Use the token to create a charge or a customer
-      // https://stripe.com/docs/charges
-      // successElement.querySelector('.token').textContent = result.token.id;
-      // successElement.classList.add('visible');
       document.location.href = '/success'
     } else if (result.error) {
       errorElement.textContent = result.error.message;
@@ -47,12 +52,12 @@
     setOutcome(event);
   });
 
-  document.querySelector('form').addEventListener('submit', function(e) {
-    e.preventDefault();
+  function onSubmit(recaptchaToken) {
     var form = document.querySelector('form');
     var extraDetails = {
       name: form.querySelector('input[name=cardholder-name]').value,
     };
     stripe.createToken(card, extraDetails).then(setOutcome);
-  });
+  }
 </script>
+<script src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoaded&render=explicit" async defer></script>

@@ -37,12 +37,9 @@ title: Koding Custom Billing
             <div id="card-element" class="field"></div>
           </label>
         </div>
-        <button type="submit">SUBMIT</button>
+        <button id="payment-submit-button" type="submit">SUBMIT</button>
         <div class="outcome">
           <div class="error" role="alert"></div>
-          <div class="success">
-            Success! Your Stripe token is <span class="token"></span>
-          </div>
         </div>
         <div class='outcome'><img src="{{ site.url }}/assets/powered_by_stripe.svg" alt="Powered by Stripe"></div>
       </form>
