@@ -1,11 +1,11 @@
 <script src="https://js.stripe.com/v3/"></script>
 <script>
 {% if jekyll.environment == 'production' %}
-  var publicKey = 'pk_live_8yL4ZpvdJphKyOQOEJyCWCVC'
+  var stripeKey = 'pk_live_8yL4ZpvdJphKyOQOEJyCWCVC'
 {% else %}
-  var publicKey = 'pk_test_eErjuF9dOkQOyqG1bpzjdqui'
+  var stripeKey = 'pk_test_eErjuF9dOkQOyqG1bpzjdqui'
 {% endif %}
-  var stripe = Stripe(publicKey);
+  var stripe = Stripe(stripeKey);
   var elements = stripe.elements();
   var card = elements.create('card', {
     style: {
