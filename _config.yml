@@ -1,0 +1,16 @@
+title: Koding On-Prem Payment Processing
+email: support@koding.com
+repository: koding/on-prem-payment
+description: >
+  Online payments for license fees.
+url: "dev.koding.com:4000"
+timezone: America/Los_Angeles
+exclude:
+- Gemfile
+- Gemfile.lock
+- README.md
+- Rakefile
+- vendor/bundle
+sass:
+  style: compressed
+  sass_dir: _css
