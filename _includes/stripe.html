@@ -2,9 +2,18 @@
 <script>
 {% if jekyll.environment == 'production' %}
   var stripeKey = 'pk_live_8yL4ZpvdJphKyOQOEJyCWCVC'
+  var recaptchaKey = '6LfNuioUAAAAAPBaPtNyY21wcmzXMB69coRaCVkp'
 {% else %}
   var stripeKey = 'pk_test_eErjuF9dOkQOyqG1bpzjdqui'
+  var recaptchaKey = '6LdmvioUAAAAAEMZAFbTN-C8Eg_fQrObHeG6XXUw'
 {% endif %}
+  function onRecaptchaLoaded() {
+    grecaptcha.render('payment-submit-button', {
+      sitekey: recaptchaKey,
+      callback: onSubmit
+    })
+  }
+
   var stripe = Stripe(stripeKey);
   var elements = stripe.elements();
 
@@ -43,12 +52,12 @@
     setOutcome(event);
   });
 
-  document.querySelector('form').addEventListener('submit', function(e) {
-    e.preventDefault();
+  function onSubmit(recaptchaToken) {
     var form = document.querySelector('form');
     var extraDetails = {
       name: form.querySelector('input[name=cardholder-name]').value,
     };
     stripe.createToken(card, extraDetails).then(setOutcome);
-  });
+  }
 </script>
+<script src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoaded&render=explicit" async defer></script>
