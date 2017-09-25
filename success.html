@@ -1,0 +1,24 @@
+---
+layout: default
+title: Home
+---
+
+<!-- HEADER -->
+{% include header.html has_sticky_navigation='true' exclude_main_nav='true' %}
+<style>{% include css/micropage.css %}</style>
+<style>{% include css/signup.css %}</style>
+<link rel="stylesheet" href="{{ site.url }}/css/custom-radio.css">
+
+<main class="Micropage">
+  <div class="Micropage--container">
+
+    <h1>Thank you!</h1>
+    <h3>We will create your payment plan and get in touch with you shortly.</h3>
+
+  </div>
+  <figure class="Micropage--UFO"></figure>
+  <figure class="Micropage--Ground"></figure>
+</main>
+
+{% include analytics.html %}
+{% include stripe.html %}

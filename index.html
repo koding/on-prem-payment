@@ -1,0 +1,57 @@
+---
+layout: default
+title: Home
+---
+
+<!-- HEADER -->
+{% include header.html has_sticky_navigation='true' exclude_main_nav='true' %}
+<style>{% include css/micropage.css %}</style>
+<style>{% include css/signup.css %}</style>
+<link rel="stylesheet" href="{{ site.url }}/css/custom-radio.css">
+
+<main class="Micropage">
+  <div class="Micropage--container">
+
+    <h1>Koding On Premise Installation</h1>
+    <h3>Credit Card Registration</h3>
+    <div class="stripe--container">
+
+      <form>
+        <div class="group">
+          <label>
+            <span>Name</span>
+            <input name="cardholder-name" class="field" placeholder="Jane Doe" />
+          </label>
+          <label>
+            <span>Email</span>
+            <input name="cardholder-email" class="field" placeholder="janedoe@company.com" />
+          </label>
+          <label>
+            <span>Phone</span>
+            <input class="field" placeholder="(123) 456-7890" type="tel" />
+          </label>
+        </div>
+        <div class="group">
+          <label>
+            <span>Card</span>
+            <div id="card-element" class="field"></div>
+          </label>
+        </div>
+        <button type="submit">SUBMIT</button>
+        <div class="outcome">
+          <div class="error" role="alert"></div>
+          <div class="success">
+            Success! Your Stripe token is <span class="token"></span>
+          </div>
+        </div>
+        <div class='outcome'><img src="{{ site.url }}/assets/powered_by_stripe.svg" alt="Powered by Stripe"></div>
+      </form>
+
+    </div>
+  </div>
+  <figure class="Micropage--UFO"></figure>
+  <figure class="Micropage--Ground"></figure>
+</main>
+
+{% include analytics.html %}
+{% include stripe.html %}
