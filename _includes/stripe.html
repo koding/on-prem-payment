@@ -20,8 +20,10 @@
     },
   }
 
+  // we don't collect postal code anywhere else.
   var card = elements.create('card', {
     style: style,
+    hidePostalCode: true
   });
   card.mount('#card-element');
 
