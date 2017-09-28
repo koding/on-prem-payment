@@ -41,7 +41,16 @@
     errorElement.classList.remove('visible');
 
     if (result.token) {
-      document.location.href = '/success'
+      var email = document.querySelector('input[name=cardholder-email]').value
+
+      stripeRequest('/customers', {
+        email: email,
+        source: result.token.id
+      }).then(function(res) {
+        document.location.href = '/success'
+      }).catch(function(error) {
+        setOutcome({ error: error })
+      })
     } else if (result.error) {
       errorElement.textContent = result.error.message;
       errorElement.classList.add('visible');
@@ -54,10 +63,28 @@
 
   function onSubmit(recaptchaToken) {
     var form = document.querySelector('form');
-    var extraDetails = {
-      name: form.querySelector('input[name=cardholder-name]').value,
-    };
-    stripe.createToken(card, extraDetails).then(setOutcome);
+    var name = form.querySelector('input[name=cardholder-name]').value
+
+    var extraDetails = { name: name }
+
+    stripe.createToken(card, extraDetails).then(setOutcome)
   }
+
+  function stripeRequest(path, body) {
+    body = Object.keys(body).map(function(key) {
+      return key + "=" + body[key]
+    }).join('&')
+
+    return fetch('https://api.stripe.com/v1' + path, {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Bearer ' + stripeKey,
+      },
+      body: body
+    })
+  }
+
 </script>
 <script src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoaded&render=explicit" async defer></script>
