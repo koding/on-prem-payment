@@ -7,7 +7,7 @@
 {% else %}
   var stripeKey = 'pk_test_eErjuF9dOkQOyqG1bpzjdqui'
   var recaptchaKey = '6LdmvioUAAAAAEMZAFbTN-C8Eg_fQrObHeG6XXUw'
-  var HOST_NAME = 'http://usirin.koding.team' // change this to `http://<username>.koding.team` if you are running on team.koding.com
+  var HOST_NAME = 'http://dev.koding.com:8090' // change this to `http://<username>.koding.team` if you are running on team.koding.com
 {% endif %}
   function onRecaptchaLoaded() {
     grecaptcha.render('payment-submit-button', {
