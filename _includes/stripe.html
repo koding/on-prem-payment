@@ -3,9 +3,11 @@
 {% if jekyll.environment == 'production' %}
   var stripeKey = 'pk_live_8yL4ZpvdJphKyOQOEJyCWCVC'
   var recaptchaKey = '6LfNuioUAAAAAPBaPtNyY21wcmzXMB69coRaCVkp'
+  var HOST_NAME = 'https://koding.com'
 {% else %}
   var stripeKey = 'pk_test_eErjuF9dOkQOyqG1bpzjdqui'
   var recaptchaKey = '6LdmvioUAAAAAEMZAFbTN-C8Eg_fQrObHeG6XXUw'
+  var HOST_NAME = 'http://dev.koding.com:8090' // change this to `http://<username>.koding.team` if you are running on team.koding.com
 {% endif %}
   function onRecaptchaLoaded() {
     grecaptcha.render('payment-submit-button', {
@@ -42,10 +44,12 @@
 
     if (result.token) {
       var email = document.querySelector('input[name=cardholder-email]').value
+      var phone = document.querySelector('input[name=cardholder-phone]').value
 
-      stripeRequest('/customers', {
+      authenticateCustomer({
         email: email,
-        source: result.token.id
+        token: result.token.id,
+        meta: { phone: phone }
       }).then(function(res) {
         document.location.href = '/success'
       }).catch(function(error) {
@@ -70,19 +74,16 @@
     stripe.createToken(card, extraDetails).then(setOutcome)
   }
 
-  function stripeRequest(path, body) {
-    body = Object.keys(body).map(function(key) {
-      return key + "=" + body[key]
-    }).join('&')
-
-    return fetch('https://api.stripe.com/v1' + path, {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Bearer ' + stripeKey,
-      },
-      body: body
+  function authenticateCustomer(body) {
+    return new Promise(function(resolve, reject) {
+      $.ajax({
+        type: "POST",
+        url: HOST_NAME + '/api/social/payment/custom-customer/create',
+        data: JSON.stringify(body),
+        contentType: "application/json; charset=utf-8",
+        success: resolve,
+        error: reject
+      })
     })
   }
 
